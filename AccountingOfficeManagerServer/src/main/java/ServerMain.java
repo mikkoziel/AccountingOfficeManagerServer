@@ -1,14 +1,17 @@
+import Server.ServerBasicAuthentication;
+import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.sql.SQLException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import Server.ServerHttpHandler;
+
 public class ServerMain {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         System.out.println("Hello World");
         createServer();
     }
@@ -20,7 +23,9 @@ public class ServerMain {
             HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
             ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 
-//            server.createContext("/", new HandlerHttpHandler());
+            HttpContext htc = server.createContext("/", new ServerHttpHandler());
+            htc.setAuthenticator(new ServerBasicAuthentication("users"));
+
             server.setExecutor(threadPoolExecutor);
 
             //Start HttpServer
