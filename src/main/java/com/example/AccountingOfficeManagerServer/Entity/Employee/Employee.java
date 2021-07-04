@@ -2,6 +2,7 @@ package com.example.AccountingOfficeManagerServer.Entity.Employee;
 import com.example.AccountingOfficeManagerServer.Entity.Client.Client;
 import com.example.AccountingOfficeManagerServer.Entity.Company.Company;
 import com.example.AccountingOfficeManagerServer.Entity.User.User;
+import com.example.AccountingOfficeManagerServer.Entity.WorkLog.WorkLog;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -14,17 +15,21 @@ import java.util.List;
 public class Employee extends User{
 
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference(value="admin")
     private List<Employee> employees = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "admin_id")
-    @JsonBackReference
+    @JsonBackReference(value="admin")
     private Employee admin;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference(value="client")
     private List<Client> clients = new ArrayList<>();
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
+    @JsonManagedReference(value="worklog")
+    private List<WorkLog> worklog = new ArrayList<>();
 
     public Employee(int user_id, String first_name, String last_name, String mail) {
         super(user_id, first_name, last_name, mail);
@@ -69,5 +74,13 @@ public class Employee extends User{
 
     public void setClients(List<Client> clients) {
         this.clients = clients;
+    }
+
+    public List<WorkLog> getWorklog() {
+        return worklog;
+    }
+
+    public void setWorklog(List<WorkLog> worklog) {
+        this.worklog = worklog;
     }
 }

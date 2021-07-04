@@ -1,4 +1,5 @@
 package com.example.AccountingOfficeManagerServer.Entity.Company;
+import com.example.AccountingOfficeManagerServer.Entity.Documents.Document;
 import com.example.AccountingOfficeManagerServer.Entity.User.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -19,8 +20,12 @@ public class Company {
     private String name;
 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference(value="company")
     private List<User> users = new ArrayList<>();
+
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+    @JsonManagedReference(value="company_document")
+    private List<Document> documents = new ArrayList<>();
 
     public Company(int company_id, String name) {
         this.company_id = company_id;
@@ -56,5 +61,13 @@ public class Company {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
     }
 }

@@ -38,7 +38,7 @@ public class EmployeeController {
     public ResponseEntity<?> update(@RequestBody Employee employee, @PathVariable Integer id) {
         try {
             Employee existEmployee = employeeService.getUser(id);
-//            user.setId(id);
+            employee.setUser_id(id);
             employeeService.saveUser(employee);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (NoSuchElementException e) {

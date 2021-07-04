@@ -21,7 +21,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "company_id")
-    @JsonBackReference
+    @JsonBackReference(value="company")
     private Company company;
 
     public User(int user_id, String first_name, String last_name, String mail) {

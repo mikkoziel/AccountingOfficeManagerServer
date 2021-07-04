@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -32,13 +33,17 @@ public class AOController {
     }
 
     @GetMapping("/{id}/employees")
-    public ResponseEntity<List<User>> getEmployees(@PathVariable Integer id) {
+    public ResponseEntity<List<Employee>> getEmployees(@PathVariable Integer id) {
         try {
             AccountingOffice accountingOffice = aoService.getAccountingOffice(id);
-            List<User> employees = accountingOffice.getUsers();
-            return new ResponseEntity<List<User>>(employees, HttpStatus.OK);
+            List<Employee> employees = new ArrayList<>();
+            for (User u : accountingOffice.getUsers()) {
+                if (u instanceof Employee)
+                    employees.add((Employee)u);
+            }
+            return new ResponseEntity<List<Employee>>(employees, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<List<Employee>>(HttpStatus.NOT_FOUND);
         }
     }
 

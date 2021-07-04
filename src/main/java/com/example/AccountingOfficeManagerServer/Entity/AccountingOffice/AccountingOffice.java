@@ -13,7 +13,7 @@ import java.util.List;
 public class AccountingOffice extends Company {
 
     @OneToMany(mappedBy = "accounting_office", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference(value="clients")
     private List<ClientCompany> clientCompanies = new ArrayList<>();
 
     public AccountingOffice(int company_id, String name) {

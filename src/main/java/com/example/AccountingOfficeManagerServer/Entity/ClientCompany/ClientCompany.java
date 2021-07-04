@@ -11,7 +11,7 @@ public class ClientCompany extends Company {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ao_id")
-    @JsonBackReference
+    @JsonBackReference(value="clients")
     private AccountingOffice accounting_office;
 
     public ClientCompany(int company_id, String name) {
