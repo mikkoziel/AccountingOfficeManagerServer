@@ -1,4 +1,5 @@
 package com.example.AccountingOfficeManagerServer.Entity.Client;
+import com.example.AccountingOfficeManagerServer.Entity.Company.Company;
 import com.example.AccountingOfficeManagerServer.Entity.Documents.Document;
 import com.example.AccountingOfficeManagerServer.Entity.Employee.Employee;
 import com.example.AccountingOfficeManagerServer.Entity.User.User;
@@ -24,8 +25,8 @@ public class Client extends User{
     private List<Document> documents = new ArrayList<>();
 
 
-    public Client(int user_id, String first_name, String last_name, String mail) {
-        super(user_id, first_name, last_name, mail);
+    public Client(int user_id, String first_name, String last_name, String mail, String password, Company company) {
+        super(user_id, first_name, last_name, mail, password, company);
     }
 
     public Client() {

@@ -18,27 +18,24 @@ public class User {
     private String first_name;
     private String last_name;
     private String mail;
+    private String password;
+
 
     @ManyToOne
     @JoinColumn(name = "company_id")
     @JsonBackReference(value="company")
     private Company company;
 
-    public User(int user_id, String first_name, String last_name, String mail) {
-        this.user_id = user_id;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.mail = mail;
-    }
-
     public User() {
     }
 
-    public User(int user_id, String first_name, String last_name, String mail, Company company) {
+
+    public User(int user_id, String first_name, String last_name, String mail, String password, Company company) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.mail = mail;
+        this.password = password;
         this.company = company;
     }
 

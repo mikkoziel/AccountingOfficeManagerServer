@@ -31,16 +31,12 @@ public class Employee extends User{
     @JsonManagedReference(value="worklog")
     private List<WorkLog> worklog = new ArrayList<>();
 
-    public Employee(int user_id, String first_name, String last_name, String mail) {
-        super(user_id, first_name, last_name, mail);
-    }
-
     public Employee() {
         super();
     }
 
-    public Employee(int user_id, String first_name, String last_name, String mail, Company company, Employee admin) {
-        super(user_id, first_name, last_name, mail, company);
+    public Employee(int user_id, String first_name, String last_name, String mail, Company company, Employee admin, String password) {
+        super(user_id, first_name, last_name, mail, password, company);
         this.admin = admin;
     }
 
