@@ -1,6 +1,6 @@
 package com.example.AccountingOfficeManagerServer.security;
 
-import com.example.AccountingOfficeManagerServer.entity.User;
+import com.example.AccountingOfficeManagerServer.entity.model.User;
 import com.example.AccountingOfficeManagerServer.repository.UserRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -52,7 +52,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         // Get user identity and set it on the spring security context
         User userDetails = null;
         try {
-            userDetails = userRepo.loadUserByUsername(jwtTokenUtil.getUsername(token));
+            userDetails = userRepo.findByUsername(jwtTokenUtil.getUsername(token));
         } catch(Exception ignored){
         }
 

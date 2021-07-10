@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,6 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 import static java.lang.String.format;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        securedEnabled = true,
+        jsr250Enabled = true,
+        prePostEnabled = true
+)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserRepository userRepo;
@@ -76,11 +82,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Set permissions on endpoints
         http.authorizeRequests()
                 // Our public endpoints
-                .antMatchers("/api/public/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/author/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/author/search").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/book/search").permitAll()
+                .antMatchers("/public/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/user/**").hasRole(Role.USER_ADMIN)
+                .antMatchers(HttpMethod.POST, "/employee/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/**").permitAll()
                 // Our private endpoints
                 .anyRequest().authenticated();
 

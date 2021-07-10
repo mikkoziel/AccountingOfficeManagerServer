@@ -1,12 +1,14 @@
 package com.example.AccountingOfficeManagerServer.api;
 
-import com.example.AccountingOfficeManagerServer.entity.User;
+import com.example.AccountingOfficeManagerServer.entity.model.Role;
+import com.example.AccountingOfficeManagerServer.entity.model.User;
 import com.example.AccountingOfficeManagerServer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,6 +19,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping("")
+    @RolesAllowed("ADMIN")
     public List<User> list() {
         return userService.listAllUser();
     }
@@ -40,7 +43,7 @@ public class UserController {
     public ResponseEntity<?> update(@RequestBody User user, @PathVariable Integer id) {
         try {
             User existUser = userService.getUser(id);
-//            user.setId(id);
+            user.setUser_id(id);
             userService.saveUser(user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (NoSuchElementException e) {

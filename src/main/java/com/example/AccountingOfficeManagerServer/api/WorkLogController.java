@@ -1,6 +1,6 @@
 package com.example.AccountingOfficeManagerServer.api;
 
-import com.example.AccountingOfficeManagerServer.entity.WorkLog;
+import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
 import com.example.AccountingOfficeManagerServer.service.WorkLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

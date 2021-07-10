@@ -1,4 +1,4 @@
-package com.example.AccountingOfficeManagerServer.entity;
+package com.example.AccountingOfficeManagerServer.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 

@@ -1,6 +1,6 @@
 package com.example.AccountingOfficeManagerServer.service;
 
-import com.example.AccountingOfficeManagerServer.entity.User;
+import com.example.AccountingOfficeManagerServer.entity.model.User;
 import com.example.AccountingOfficeManagerServer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,8 +13,10 @@ import java.util.List;
 @Service
 @Transactional
 public class UserService  implements UserDetailsService {
+
     @Autowired
     private UserRepository userRepository;
+
     public List<User> listAllUser() {
         return userRepository.findAll();
     }
@@ -33,7 +35,7 @@ public class UserService  implements UserDetailsService {
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.loadUserByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }

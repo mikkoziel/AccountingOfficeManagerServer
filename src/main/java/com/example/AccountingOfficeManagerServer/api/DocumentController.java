@@ -1,6 +1,6 @@
 package com.example.AccountingOfficeManagerServer.api;
 
-import com.example.AccountingOfficeManagerServer.entity.Document;
+import com.example.AccountingOfficeManagerServer.entity.model.Document;
 import com.example.AccountingOfficeManagerServer.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

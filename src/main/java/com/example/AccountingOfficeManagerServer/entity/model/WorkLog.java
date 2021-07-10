@@ -1,6 +1,5 @@
-package com.example.AccountingOfficeManagerServer.entity;
+package com.example.AccountingOfficeManagerServer.entity.model;
 
-import com.example.AccountingOfficeManagerServer.entity.Employee;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;

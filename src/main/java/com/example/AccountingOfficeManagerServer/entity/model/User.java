@@ -1,6 +1,5 @@
-package com.example.AccountingOfficeManagerServer.entity;
+package com.example.AccountingOfficeManagerServer.entity.model;
 
-import com.example.AccountingOfficeManagerServer.entity.Company;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -22,11 +23,17 @@ public class User implements UserDetails, Serializable {
     private String username;
     private String password;
 
-
     @ManyToOne
     @JoinColumn(name = "company_id")
     @JsonBackReference(value="company")
     private Company company;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    List<Role> roles;
 
     public User() {
     }

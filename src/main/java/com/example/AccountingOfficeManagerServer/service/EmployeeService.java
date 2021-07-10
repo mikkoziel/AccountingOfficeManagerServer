@@ -1,6 +1,6 @@
 package com.example.AccountingOfficeManagerServer.service;
 
-import com.example.AccountingOfficeManagerServer.entity.Employee;
+import com.example.AccountingOfficeManagerServer.entity.model.Employee;
 import com.example.AccountingOfficeManagerServer.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

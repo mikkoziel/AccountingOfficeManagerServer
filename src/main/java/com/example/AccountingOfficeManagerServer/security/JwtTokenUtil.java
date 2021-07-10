@@ -1,17 +1,21 @@
 package com.example.AccountingOfficeManagerServer.security;
 
-import com.example.AccountingOfficeManagerServer.entity.User;
+import com.example.AccountingOfficeManagerServer.entity.model.User;
 import io.jsonwebtoken.*;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 import static java.lang.String.format;
 
+@Component
 public class JwtTokenUtil {
     private final String jwtSecret = "zdtlD3JK56m6wTTgsNFhqzjqP";
-    private final String jwtIssuer = "ao.com";
+
+    public JwtTokenUtil(){}
 
     public String generateAccessToken(User user) {
+        final String jwtIssuer = "ao.com";
         return Jwts.builder()
                 .setSubject(format("%s,%s", user.getUser_id(), user.getUsername()))
                 .setIssuer(jwtIssuer)

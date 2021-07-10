@@ -1,7 +1,7 @@
 package com.example.AccountingOfficeManagerServer.service;
 
 import com.example.AccountingOfficeManagerServer.repository.AORepository;
-import com.example.AccountingOfficeManagerServer.entity.AccountingOffice;
+import com.example.AccountingOfficeManagerServer.entity.model.AccountingOffice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

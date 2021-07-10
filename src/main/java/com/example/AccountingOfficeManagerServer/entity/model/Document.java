@@ -1,14 +1,11 @@
-package com.example.AccountingOfficeManagerServer.entity;
+package com.example.AccountingOfficeManagerServer.entity.model;
 
-import com.example.AccountingOfficeManagerServer.entity.Client;
-import com.example.AccountingOfficeManagerServer.entity.Company;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Documents")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "documents")
 public class Document {
 
     @Id
@@ -22,7 +19,7 @@ public class Document {
     private Company company;
 
     @ManyToOne
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "client_id")
     @JsonBackReference(value="client_document")
     private Client client;
 
