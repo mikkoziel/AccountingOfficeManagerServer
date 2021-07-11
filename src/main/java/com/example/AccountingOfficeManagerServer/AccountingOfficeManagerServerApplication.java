@@ -10,4 +10,5 @@ public class AccountingOfficeManagerServerApplication {
 		SpringApplication.run(AccountingOfficeManagerServerApplication.class, args);
 	}
 
+
 }

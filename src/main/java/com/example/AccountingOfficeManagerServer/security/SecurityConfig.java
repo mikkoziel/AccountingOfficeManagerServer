@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,6 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserRepository userRepo;
     private final JwtTokenFilter jwtTokenFilter;
     private final UserService userService;
+
+//    @Bean
+//    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+//        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
+//    }
 
     public SecurityConfig(UserRepository userRepo,
                           JwtTokenFilter jwtTokenFilter,
@@ -82,12 +88,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Set permissions on endpoints
         http.authorizeRequests()
                 // Our public endpoints
-                .antMatchers("/public/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/user/**").hasRole(Role.USER_ADMIN)
+                .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/employee/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/**").permitAll()
                 // Our private endpoints
+                .antMatchers("/user/").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         // Add JWT token filter
@@ -120,5 +125,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
 
 }

@@ -1,11 +1,13 @@
 package com.example.AccountingOfficeManagerServer.api;
 
+import com.example.AccountingOfficeManagerServer.entity.configuration.RoleEnum;
 import com.example.AccountingOfficeManagerServer.entity.model.Role;
 import com.example.AccountingOfficeManagerServer.entity.model.User;
 import com.example.AccountingOfficeManagerServer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -19,7 +21,6 @@ public class UserController {
     UserService userService;
 
     @GetMapping("")
-    @RolesAllowed("ADMIN")
     public List<User> list() {
         return userService.listAllUser();
     }

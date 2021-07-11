@@ -31,8 +31,8 @@ public class Employee extends User{
         super();
     }
 
-    public Employee(int user_id, String first_name, String last_name, String mail, Company company, Employee admin, String password) {
-        super(user_id, first_name, last_name, mail, password, company);
+    public Employee(int user_id, String first_name, String last_name, String mail, Company company, Employee admin, String password, List<Role> roles) {
+        super(user_id, first_name, last_name, mail, password, company, roles);
         this.admin = admin;
     }
 

@@ -1,24 +1,30 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="role_id")
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int role_id;
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
-    public Role(int id, String name) {
-        this.id = id;
+    public Role(int role_id, String name) {
+        this.role_id = role_id;
         this.name = name;
     }
 
@@ -30,12 +36,12 @@ public class Role implements GrantedAuthority {
         return null;
     }
 
-    public int getId() {
-        return id;
+    public int getRole_id() {
+        return role_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRole_id(int id) {
+        this.role_id = id;
     }
 
     public String getName() {
@@ -44,6 +50,15 @@ public class Role implements GrantedAuthority {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
 

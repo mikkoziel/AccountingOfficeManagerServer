@@ -20,13 +20,13 @@ public class Client extends User{
     @JsonManagedReference(value="client_document")
     private List<Document> documents = new ArrayList<>();
 
-
-    public Client(int user_id, String first_name, String last_name, String mail, String password, Company company) {
-        super(user_id, first_name, last_name, mail, password, company);
-    }
-
     public Client() {
     }
+
+    public Client(int user_id, String first_name, String last_name, String mail, String password, Company company, List<Role> roles) {
+        super(user_id, first_name, last_name, mail, password, company, roles);
+    }
+
 
     public Employee getEmployee() {
         return employee;
