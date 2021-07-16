@@ -41,11 +41,14 @@ public class AuthController {
 
             User user = (User) authenticate.getPrincipal();
 
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.add(HttpHeaders.AUTHORIZATION,
+                    jwtTokenUtil.generateAccessToken(user));
+            responseHeaders.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS,
+                    HttpHeaders.AUTHORIZATION);
+
             return ResponseEntity.ok()
-                    .header(
-                            HttpHeaders.AUTHORIZATION,
-                            jwtTokenUtil.generateAccessToken(user)
-                    )
+                    .headers(responseHeaders)
                     .body(user);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

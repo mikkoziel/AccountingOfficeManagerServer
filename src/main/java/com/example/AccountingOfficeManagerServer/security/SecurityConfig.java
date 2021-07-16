@@ -92,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/employee/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/**").permitAll()
                 // Our private endpoints
-                .antMatchers("/user/").hasRole("ADMIN")
+//                .antMatchers("/user/").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
         // Add JWT token filter
