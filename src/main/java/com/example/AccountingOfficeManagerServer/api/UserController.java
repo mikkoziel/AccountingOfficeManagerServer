@@ -1,16 +1,17 @@
 package com.example.AccountingOfficeManagerServer.api;
 
-import com.example.AccountingOfficeManagerServer.entity.configuration.RoleEnum;
-import com.example.AccountingOfficeManagerServer.entity.model.Role;
 import com.example.AccountingOfficeManagerServer.entity.model.User;
 import com.example.AccountingOfficeManagerServer.service.UserService;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -19,6 +20,7 @@ import java.util.NoSuchElementException;
 public class UserController {
     @Autowired
     UserService userService;
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("")
     public List<User> list() {
@@ -56,5 +58,24 @@ public class UserController {
     public void delete(@PathVariable Integer id) {
 
         userService.deleteUser(id);
+    }
+
+    @PostMapping("/updatePassword")
+    public ResponseEntity<User> changeUserPassword(@RequestBody ObjectNode objectNode) {
+        try{
+            User user = userService.loadUserByUsername(
+                    SecurityContextHolder.getContext().getAuthentication().getName());
+
+            String password = objectNode.get("new_password").asText();
+            String oldPassword = objectNode.get("old_password").asText();;
+
+            userService.checkIfValidPassword(user, oldPassword);
+            userService.changeUserPassword(user, password);
+
+            return ResponseEntity.ok()
+                    .body(user);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }
