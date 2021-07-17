@@ -3,6 +3,8 @@ package com.example.AccountingOfficeManagerServer.api;
 import com.example.AccountingOfficeManagerServer.entity.model.User;
 import com.example.AccountingOfficeManagerServer.security.JwtTokenUtil;
 import com.example.AccountingOfficeManagerServer.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public AuthController(AuthenticationManager authenticationManager,
                    JwtTokenUtil jwtTokenUtil
@@ -40,6 +43,7 @@ public class AuthController {
                     );
 
             User user = (User) authenticate.getPrincipal();
+//            logger.info(user.toString());
 
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add(HttpHeaders.AUTHORIZATION,

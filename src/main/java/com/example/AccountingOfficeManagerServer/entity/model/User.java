@@ -135,4 +135,17 @@ public class User implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "\"user_id\": " + user_id +
+                ", \"first_name\": '" + first_name + '\'' +
+                ", \"last_name\": '" + last_name + '\'' +
+                ", \"username\": '" + username + '\'' +
+                ", \"password\": '" + password + '\'' +
+                ", \"company\": " + company +
+                ", \"roles\": " + roles +
+                '}';
+    }
 }
