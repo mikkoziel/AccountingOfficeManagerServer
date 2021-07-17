@@ -1,7 +1,10 @@
 package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
+import com.example.AccountingOfficeManagerServer.service.UserService;
 import com.example.AccountingOfficeManagerServer.service.WorkLogService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,7 @@ import java.util.NoSuchElementException;
 public class WorkLogController {
     @Autowired
     WorkLogService workLogService;
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @GetMapping("")
     public List<WorkLog> list() {
@@ -33,6 +37,7 @@ public class WorkLogController {
 
     @PostMapping("/")
     public void add(@RequestBody WorkLog workLog) {
+        logger.info(workLog.toString());
         workLogService.saveWorkLog(workLog);
     }
 
@@ -53,4 +58,10 @@ public class WorkLogController {
 
         workLogService.deleteWorkLog(id);
     }
+
+    @GetMapping("/user/{id}")
+    public List<WorkLog> listForUser(@PathVariable Integer id) {
+        return workLogService.listAllWorkLogForUser(id);
+    }
+
 }

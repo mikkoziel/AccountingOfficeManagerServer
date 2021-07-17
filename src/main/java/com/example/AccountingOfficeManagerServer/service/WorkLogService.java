@@ -28,4 +28,6 @@ public class WorkLogService {
     public void deleteWorkLog(Integer id) {
         workLogRepository.deleteById(id);
     }
+
+    public List<WorkLog> listAllWorkLogForUser(Integer user_id) {return workLogRepository.findByUserId(user_id);}
 }

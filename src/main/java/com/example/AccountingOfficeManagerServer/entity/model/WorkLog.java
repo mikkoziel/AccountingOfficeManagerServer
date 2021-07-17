@@ -65,4 +65,14 @@ public class WorkLog {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    @Override
+    public String toString() {
+        return "WorkLog{" +
+                "\"worklog_id\": " + worklog_id +
+                ", \"date\": " + date +
+                ", \"duration\": " + duration +
+                ", \"employee\": " + employee +
+                '}';
+    }
 }
