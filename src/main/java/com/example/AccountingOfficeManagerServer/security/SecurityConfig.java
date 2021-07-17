@@ -32,20 +32,15 @@ import static java.lang.String.format;
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserRepository userRepo;
+//    private final UserRepository userRepo;
     private final JwtTokenFilter jwtTokenFilter;
     private final UserService userService;
-
-//    @Bean
-//    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-//        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
-//    }
 
     public SecurityConfig(UserRepository userRepo,
                           JwtTokenFilter jwtTokenFilter,
                           UserService userService) {
         super();
-        this.userRepo = userRepo;
+//        this.userRepo = userRepo;
         this.jwtTokenFilter = jwtTokenFilter;
         this.userService = userService;
     }
