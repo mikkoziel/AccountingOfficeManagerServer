@@ -1,6 +1,7 @@
 package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Client;
+import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
 import com.example.AccountingOfficeManagerServer.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,5 +52,10 @@ public class ClientController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         clientService.deleteClient(id);
+    }
+
+    @GetMapping("/user/{id}")
+    public List<Client> listForUser(@PathVariable Integer id) {
+        return clientService.listAllClientForUser(id);
     }
 }

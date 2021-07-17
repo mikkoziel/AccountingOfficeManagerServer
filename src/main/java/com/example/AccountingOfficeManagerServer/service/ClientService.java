@@ -1,6 +1,7 @@
 package com.example.AccountingOfficeManagerServer.service;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Client;
+import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
 import com.example.AccountingOfficeManagerServer.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,4 +30,7 @@ public class ClientService {
     public void deleteClient(Integer id) {
         clientRepository.deleteById(id);
     }
+
+    public List<Client> listAllClientForUser(Integer user_id) {return clientRepository.findByEmployeeId(user_id);}
+
 }
