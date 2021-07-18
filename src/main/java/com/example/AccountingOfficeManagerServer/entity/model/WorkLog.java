@@ -2,6 +2,7 @@ package com.example.AccountingOfficeManagerServer.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class WorkLog implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
 //    @JsonBackReference(value="worklog")
     private Employee employee;
 
