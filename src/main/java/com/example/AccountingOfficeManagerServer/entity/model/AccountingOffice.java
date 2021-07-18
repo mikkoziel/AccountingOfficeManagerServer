@@ -5,16 +5,17 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "accounting_office")
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="company_id")
-public class AccountingOffice extends Company {
+public class AccountingOffice extends Company implements Serializable {
 
     @OneToMany(mappedBy = "accounting_office", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="clients")
+//    @JsonManagedReference(value="clients")
     private List<ClientCompany> clientCompanies = new ArrayList<>();
 
     public AccountingOffice(int company_id, String name) {

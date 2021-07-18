@@ -6,21 +6,23 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "client_company")
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="company_id")
-public class ClientCompany extends Company {
+public class ClientCompany extends Company implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ao_id")
-    @JsonBackReference(value="clients")
+//    @JsonBackReference(value="clients")
     private AccountingOffice accounting_office;
 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="company_document")
+//    @JsonManagedReference(value="company_document")
     protected List<Document> documents = new ArrayList<>();
 
     public ClientCompany(int company_id, String name) {
@@ -43,9 +45,9 @@ public class ClientCompany extends Company {
         return "ClientCompany{" +
                 "\"company_id\": " + company_id +
                 ", \"name\": '" + name + '\'' +
-                ", \"users\": " + users +
-                ", \"accounting_office\": " + accounting_office +
-                ", \"documents\": " + documents +
+                ", \"users\": " + users.stream().map(User::getUser_id).collect(Collectors.toList()) +
+                ", \"accounting_office\": " + accounting_office.getName() +
+                ", \"documents\": " + documents.stream().map(Document::getDocument_id).collect(Collectors.toList()) +
                 '}';
     }
 }

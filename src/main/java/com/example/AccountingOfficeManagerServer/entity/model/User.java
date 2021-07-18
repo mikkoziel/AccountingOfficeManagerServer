@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -27,7 +26,7 @@ public class User implements UserDetails, Serializable {
 
     @ManyToOne
     @JoinColumn(name = "company_id")
-    @JsonBackReference(value="company")
+//    @JsonManagedReference(value="user-company")
     protected Company company;
 
     @ManyToMany

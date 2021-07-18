@@ -1,4 +1,5 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "company")
@@ -20,7 +22,7 @@ public class Company implements Serializable {
     protected String name;
 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="company")
+//    @JsonBackReference(value="user-company")
     protected List<User> users = new ArrayList<>();
 
     public Company(int company_id, String name) {
@@ -64,7 +66,7 @@ public class Company implements Serializable {
         return "Company{" +
                 "\"company_id\": " + company_id +
                 ", \"name\": '" + name + '\'' +
-                ", \"users\": " + users +
+                ", \"users\": " + users.stream().map(User::getUser_id).collect(Collectors.toList()) +
                 '}';
     }
 }

@@ -1,12 +1,16 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "documents")
-public class Document {
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="document_id")
+public class Document implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,12 +19,12 @@ public class Document {
 
     @ManyToOne
     @JoinColumn(name = "company_id")
-    @JsonBackReference(value="company_document")
+//    @JsonBackReference(value="company_document")
     private ClientCompany company;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    @JsonBackReference(value="client_document")
+//    @JsonBackReference(value="client_document")
     private Client client;
 
     public Document() {
