@@ -16,7 +16,7 @@ public class Document {
     @ManyToOne
     @JoinColumn(name = "company_id")
     @JsonBackReference(value="company_document")
-    private Company company;
+    private ClientCompany company;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -26,7 +26,7 @@ public class Document {
     public Document() {
     }
 
-    public Document(int document_id, String path, Company company, Client client) {
+    public Document(int document_id, String path, ClientCompany company, Client client) {
         this.document_id = document_id;
         this.path = path;
         this.company = company;
@@ -49,11 +49,11 @@ public class Document {
         this.path = path;
     }
 
-    public Company getCompany() {
+    public ClientCompany getCompany() {
         return company;
     }
 
-    public void setCompany(Company company) {
+    public void setCompany(ClientCompany company) {
         this.company = company;
     }
 
@@ -63,5 +63,15 @@ public class Document {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    @Override
+    public String toString() {
+        return "Document{" +
+                "\"document_id\": " + document_id +
+                ", \"path\": '" + path + '\'' +
+                ", \"company\": " + company +
+                ", \"client\": " + client +
+                '}';
     }
 }

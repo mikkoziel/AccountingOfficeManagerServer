@@ -1,6 +1,8 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "client")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="user_id")
 public class Client extends User{
 
     @ManyToOne
@@ -21,6 +24,7 @@ public class Client extends User{
     private List<Document> documents = new ArrayList<>();
 
     public Client() {
+        super();
     }
 
     public Client(int user_id, String first_name, String last_name, String mail, String password, Company company, List<Role> roles) {
@@ -42,5 +46,20 @@ public class Client extends User{
 
     public void setDocuments(List<Document> documents) {
         this.documents = documents;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                " \"user_id\": " + user_id +
+                ", \"first_name\": '" + first_name + '\'' +
+                ", \"last_name\": '" + last_name + '\'' +
+                ", \"username\": '" + username + '\'' +
+                ", \"password\": '" + password + '\'' +
+                ", \"company\": " + company +
+                ", \"roles\": " + roles +
+                ", \"employee\": " + employee +
+                ", \"documents\": " + documents +
+                '}';
     }
 }
