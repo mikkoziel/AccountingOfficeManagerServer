@@ -10,6 +10,11 @@ import java.util.List;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Integer>{
-    @Query(value = "SELECT * FROM client WHERE employee_id=?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM client" +
+            " JOIN user" +
+            " ON client.user_id=user.user_id" +
+            " JOIN company" +
+            " ON user.company_id=company.company_id" +
+            " AND client.employee_id=?1", nativeQuery = true)
     List<Client> findByEmployeeId(Integer user_id);
 }
