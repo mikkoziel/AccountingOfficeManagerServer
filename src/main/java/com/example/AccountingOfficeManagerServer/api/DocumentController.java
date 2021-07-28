@@ -46,7 +46,7 @@ public class DocumentController {
         }
     }
 
-    @GetMapping("/{filename:.+}")
+    @GetMapping("/fn/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> getByFileName(@PathVariable String filename) {
         Resource file = documentService.loadAsResource(filename);
