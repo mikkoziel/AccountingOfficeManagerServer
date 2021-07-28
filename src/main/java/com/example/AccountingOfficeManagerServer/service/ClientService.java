@@ -29,4 +29,7 @@ public class ClientService {
     public void deleteClient(Integer id) {
         clientRepository.deleteById(id);
     }
+
+    public List<Client> listAllClientForUser(Integer user_id) {return clientRepository.findByEmployeeId(user_id);}
+
 }

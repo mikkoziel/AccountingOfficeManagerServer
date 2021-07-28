@@ -1,14 +1,19 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "work_log")
-@Inheritance(strategy = InheritanceType.JOINED)
-public class WorkLog {
+//@Inheritance(strategy = InheritanceType.JOINED)
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="worklog_id")
+public class WorkLog implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +25,8 @@ public class WorkLog {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference(value="worklog")
+    @JsonIgnore
+//    @JsonBackReference(value="worklog")
     private Employee employee;
 
     public WorkLog() {

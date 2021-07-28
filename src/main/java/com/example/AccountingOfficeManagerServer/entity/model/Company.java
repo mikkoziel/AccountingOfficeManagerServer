@@ -1,34 +1,40 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "company")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="company_id")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Company {
+public class Company implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int company_id;
-    private String name;
+    protected int company_id;
+    protected String name;
 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="company")
-    private List<User> users = new ArrayList<>();
+//    @JsonBackReference(value="user-company")
+    protected List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="company_document")
-    private List<Document> documents = new ArrayList<>();
+    public Company() {
+    }
+
+    public Company(int company_id) {
+        this.company_id = company_id;
+    }
 
     public Company(int company_id, String name) {
         this.company_id = company_id;
         this.name = name;
-    }
-
-    public Company() {
     }
 
     public int getCompany_id() {
@@ -59,11 +65,12 @@ public class Company {
         this.users = users;
     }
 
-    public List<Document> getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(List<Document> documents) {
-        this.documents = documents;
+    @Override
+    public String toString() {
+        return "Company{" +
+                "\"company_id\": " + company_id +
+                ", \"name\": '" + name + '\'' +
+                ", \"users\": " + users.stream().map(User::getUser_id).collect(Collectors.toList()) +
+                '}';
     }
 }

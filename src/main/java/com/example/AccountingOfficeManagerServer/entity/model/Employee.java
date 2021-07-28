@@ -1,14 +1,18 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "employee")
-public class Employee extends User{
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="user_id")
+public class Employee extends User implements Serializable {
 
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
     @JsonManagedReference(value="admin")
@@ -20,11 +24,11 @@ public class Employee extends User{
     private Employee admin;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="client")
+//    @JsonManagedReference(value="client")
     private List<Client> clients = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="worklog")
+//    @JsonManagedReference(value="worklog")
     private List<WorkLog> worklog = new ArrayList<>();
 
     public Employee() {
@@ -74,5 +78,22 @@ public class Employee extends User{
 
     public void setWorklog(List<WorkLog> worklog) {
         this.worklog = worklog;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "\"user_id\": " + user_id +
+                ", \"first_name\": '" + first_name + '\'' +
+                ", \"last_name\": '" + last_name + '\'' +
+                ", \"username\": '" + username + '\'' +
+//                ", \"password\": '" + password + '\'' +
+                ", \"company\": " + company +
+                ", \"roles\": " + roles +
+                ", \"employees\": " + employees +
+                ", \"admin\": " + admin +
+                ", \"clients\": " + clients +
+                ", \"worklog\": " + worklog +
+                '}';
     }
 }

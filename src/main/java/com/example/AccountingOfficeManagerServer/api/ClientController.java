@@ -1,7 +1,11 @@
 package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Client;
+import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
 import com.example.AccountingOfficeManagerServer.service.ClientService;
+import com.example.AccountingOfficeManagerServer.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,7 @@ import java.util.NoSuchElementException;
 public class ClientController {
     @Autowired
     ClientService clientService;
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @GetMapping("")
     public List<Client> list() {
@@ -51,5 +56,12 @@ public class ClientController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         clientService.deleteClient(id);
+    }
+
+    @GetMapping("/user/{id}")
+    public List<Client> listForUser(@PathVariable Integer id) {
+        List<Client> clients = clientService.listAllClientForUser(id);
+        logger.info(clients.toString());
+        return clients;
     }
 }

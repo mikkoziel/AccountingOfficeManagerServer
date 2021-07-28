@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -19,25 +18,29 @@ public class User implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_id;
-    private String first_name;
-    private String last_name;
-    private String username;
-    private String password;
+    protected int user_id;
+    protected String first_name;
+    protected String last_name;
+    protected String username;
+    protected String password;
 
     @ManyToOne
     @JoinColumn(name = "company_id")
-    @JsonBackReference(value="company")
-    private Company company;
+//    @JsonManagedReference(value="user-company")
+    protected Company company;
 
     @ManyToMany
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles = new ArrayList<>();
+    protected List<Role> roles = new ArrayList<>();
 
     public User() {
+    }
+
+    public User(int user_id) {
+        this.user_id = user_id;
     }
 
     public User(String username, String password) {
