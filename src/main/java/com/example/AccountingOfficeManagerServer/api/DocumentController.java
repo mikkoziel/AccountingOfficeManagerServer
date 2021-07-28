@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,18 +30,28 @@ public class DocumentController {
 
     @GetMapping("")
     public List<Document> list() {
-
         return documentService.listAllDocument();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Document> get(@PathVariable Integer id) {
+    public ResponseEntity<Resource> getById(@PathVariable Integer id) {
         try {
             Document document = documentService.getDocument(id);
-            return new ResponseEntity<Document>(document, HttpStatus.OK);
+            Resource file = documentService.loadAsResource(document.getPath());
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+//            return new ResponseEntity<Resource>(document, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<Document>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/fn/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> getByFileName(@PathVariable String filename) {
+        Resource file = documentService.loadAsResource(filename);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
     @PostMapping(value="/",
@@ -51,8 +63,6 @@ public class DocumentController {
             ObjectMapper objectMapper = new ObjectMapper();
             Document document = objectMapper.readValue(document_data, Document.class);
             document.setPath(path);
-//            logger.info(path);
-//            logger.info(document.toString());
             documentService.saveDocument(document);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
