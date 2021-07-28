@@ -30,6 +30,17 @@ public class Document implements Serializable {
     public Document() {
     }
 
+    public Document(ClientCompany company, Client client) {
+        this.company = company;
+        this.client = client;
+    }
+
+    public Document(String path, ClientCompany company, Client client) {
+        this.path = path;
+        this.company = company;
+        this.client = client;
+    }
+
     public Document(int document_id, String path, ClientCompany company, Client client) {
         this.document_id = document_id;
         this.path = path;

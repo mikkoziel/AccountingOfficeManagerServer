@@ -25,12 +25,16 @@ public class Company implements Serializable {
 //    @JsonBackReference(value="user-company")
     protected List<User> users = new ArrayList<>();
 
+    public Company() {
+    }
+
+    public Company(int company_id) {
+        this.company_id = company_id;
+    }
+
     public Company(int company_id, String name) {
         this.company_id = company_id;
         this.name = name;
-    }
-
-    public Company() {
     }
 
     public int getCompany_id() {

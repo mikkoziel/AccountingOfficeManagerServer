@@ -12,17 +12,17 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "client")
-//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="user_id")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="user_id")
 public class Client extends User implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    @JsonBackReference(value="client")
+//    @JsonBackReference(value="client")
     private Employee employee;
 
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="client_document")
+//    @JsonManagedReference(value="client_document")
     private List<Document> documents = new ArrayList<>();
 
     public Client() {
@@ -60,7 +60,7 @@ public class Client extends User implements Serializable {
 //                ", \"password\": '" + password + '\'' +
                 ", \"company\": " + company +
                 ", \"roles\": " + roles +
-                ", \"employee\": " + employee.getUser_id() +
+//                ", \"employee\": " + employee.getUser_id() +
                 ", \"documents\": " + documents.stream().map(Document::getDocument_id).collect(Collectors.toList()) +
                 '}';
     }

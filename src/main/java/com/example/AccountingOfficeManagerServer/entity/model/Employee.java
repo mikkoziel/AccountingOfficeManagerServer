@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "employee")
-//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="user_id")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="user_id")
 public class Employee extends User implements Serializable {
 
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
@@ -24,11 +24,11 @@ public class Employee extends User implements Serializable {
     private Employee admin;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="client")
+//    @JsonManagedReference(value="client")
     private List<Client> clients = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="worklog")
+//    @JsonManagedReference(value="worklog")
     private List<WorkLog> worklog = new ArrayList<>();
 
     public Employee() {

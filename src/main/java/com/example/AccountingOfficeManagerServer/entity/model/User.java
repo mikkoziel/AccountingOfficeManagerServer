@@ -39,6 +39,10 @@ public class User implements UserDetails, Serializable {
     public User() {
     }
 
+    public User(int user_id) {
+        this.user_id = user_id;
+    }
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;

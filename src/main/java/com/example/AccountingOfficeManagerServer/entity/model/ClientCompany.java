@@ -46,7 +46,7 @@ public class ClientCompany extends Company implements Serializable {
                 "\"company_id\": " + company_id +
                 ", \"name\": '" + name + '\'' +
                 ", \"users\": " + users.stream().map(User::getUser_id).collect(Collectors.toList()) +
-                ", \"accounting_office\": " + accounting_office.getName() +
+//                ", \"accounting_office\": " + accounting_office.getCompany_id() +
                 ", \"documents\": " + documents.stream().map(Document::getDocument_id).collect(Collectors.toList()) +
                 '}';
     }
