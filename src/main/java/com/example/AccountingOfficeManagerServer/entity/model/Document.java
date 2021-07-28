@@ -1,12 +1,16 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "documents")
-public class Document {
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="document_id")
+public class Document implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,18 +19,18 @@ public class Document {
 
     @ManyToOne
     @JoinColumn(name = "company_id")
-    @JsonBackReference(value="company_document")
-    private Company company;
+//    @JsonBackReference(value="company_document")
+    private ClientCompany company;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    @JsonBackReference(value="client_document")
+//    @JsonBackReference(value="client_document")
     private Client client;
 
     public Document() {
     }
 
-    public Document(int document_id, String path, Company company, Client client) {
+    public Document(int document_id, String path, ClientCompany company, Client client) {
         this.document_id = document_id;
         this.path = path;
         this.company = company;
@@ -49,11 +53,11 @@ public class Document {
         this.path = path;
     }
 
-    public Company getCompany() {
+    public ClientCompany getCompany() {
         return company;
     }
 
-    public void setCompany(Company company) {
+    public void setCompany(ClientCompany company) {
         this.company = company;
     }
 
@@ -63,5 +67,15 @@ public class Document {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    @Override
+    public String toString() {
+        return "Document{" +
+                "\"document_id\": " + document_id +
+                ", \"path\": '" + path + '\'' +
+                ", \"company\": " + company +
+                ", \"client\": " + client +
+                '}';
     }
 }
