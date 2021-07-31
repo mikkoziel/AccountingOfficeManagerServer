@@ -37,7 +37,7 @@ public class WorkLogController {
 
     @PostMapping("/")
     public void add(@RequestBody WorkLog workLog) {
-        logger.info(workLog.toString());
+//        logger.info(workLog.toString());
         workLogService.saveWorkLog(workLog);
     }
 

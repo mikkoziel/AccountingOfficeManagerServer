@@ -61,7 +61,7 @@ public class ClientController {
     @GetMapping("/user/{id}")
     public List<Client> listForUser(@PathVariable Integer id) {
         List<Client> clients = clientService.listAllClientForUser(id);
-        logger.info(clients.toString());
+//        logger.info(clients.toString());
         return clients;
     }
 }

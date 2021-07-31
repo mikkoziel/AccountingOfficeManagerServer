@@ -30,7 +30,7 @@ public class EmployeeController {
     public ResponseEntity<Employee> get(@PathVariable Integer id) {
         try {
             Employee employee = employeeService.getUser(id);
-            logger.info(employee.toString());
+//            logger.info(employee.toString());
             return new ResponseEntity<Employee>(employee, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
