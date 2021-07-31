@@ -27,6 +27,8 @@ public class Document implements Serializable {
 //    @JsonBackReference(value="client_document")
     private Client client;
 
+    private String description;
+
     public Document() {
     }
 
@@ -46,6 +48,14 @@ public class Document implements Serializable {
         this.path = path;
         this.company = company;
         this.client = client;
+    }
+
+    public Document(int document_id, String path, ClientCompany company, Client client, String description) {
+        this.document_id = document_id;
+        this.path = path;
+        this.company = company;
+        this.client = client;
+        this.description = description;
     }
 
     public int getDocument_id() {
@@ -80,6 +90,14 @@ public class Document implements Serializable {
         this.client = client;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Document{" +
@@ -87,6 +105,7 @@ public class Document implements Serializable {
                 ", \"path\": '" + path + '\'' +
                 ", \"company\": " + company +
                 ", \"client\": " + client +
+                ", \"description\": '" + description + '\'' +
                 '}';
     }
 }
