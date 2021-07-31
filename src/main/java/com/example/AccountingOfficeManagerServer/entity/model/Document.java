@@ -16,6 +16,7 @@ public class Document implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int document_id;
     private String path;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "company_id")
@@ -27,7 +28,6 @@ public class Document implements Serializable {
 //    @JsonBackReference(value="client_document")
     private Client client;
 
-    private String description;
 
     public Document() {
     }

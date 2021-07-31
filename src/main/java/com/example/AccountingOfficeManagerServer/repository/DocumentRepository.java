@@ -10,9 +10,9 @@ import java.util.List;
 
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Integer>{
-    @Query(value = "SELECT * FROM documents WHERE user_id=?1;", nativeQuery = true)
-    List<Document> findByUserId(Integer user_id);
+    @Query(value = "SELECT * FROM documents WHERE client_id=?1", nativeQuery = true)
+    List<Document> findByClientId(Integer user_id);
 
-    @Query(value = "SELECT * FROM documents WHERE comapny_id=?1;", nativeQuery = true)
+    @Query(value = "SELECT * FROM documents WHERE company_id=?1", nativeQuery = true)
     List<Document> findByCompanyId(Integer company_id);
 }

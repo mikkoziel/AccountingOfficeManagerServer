@@ -52,7 +52,7 @@ public class DocumentService {
         documentRepository.deleteById(id);
     }
 
-    public List<Document> listAllDocumentsForUser(Integer user_id) {return documentRepository.findByUserId(user_id);}
+    public List<Document> listAllDocumentsForUser(Integer user_id) {return documentRepository.findByClientId(user_id);}
 
     public List<Document> listAllDocumentsForCompany(Integer company_id) {return documentRepository.findByCompanyId(company_id);}
 
