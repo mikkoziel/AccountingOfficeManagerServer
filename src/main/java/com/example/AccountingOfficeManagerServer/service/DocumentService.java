@@ -4,6 +4,7 @@ import com.example.AccountingOfficeManagerServer.entity.configuration.StoragePro
 import com.example.AccountingOfficeManagerServer.entity.exception.StorageException;
 import com.example.AccountingOfficeManagerServer.entity.exception.StorageFileNotFoundException;
 import com.example.AccountingOfficeManagerServer.entity.model.Document;
+import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
 import com.example.AccountingOfficeManagerServer.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -50,6 +51,10 @@ public class DocumentService {
     public void deleteDocument(Integer id) {
         documentRepository.deleteById(id);
     }
+
+    public List<Document> listAllDocumentsForUser(Integer user_id) {return documentRepository.findByClientId(user_id);}
+
+    public List<Document> listAllDocumentsForCompany(Integer company_id) {return documentRepository.findByCompanyId(company_id);}
 
     public String store(MultipartFile file) {
         try {

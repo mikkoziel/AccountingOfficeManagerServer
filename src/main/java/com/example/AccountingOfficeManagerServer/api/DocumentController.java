@@ -2,6 +2,7 @@ package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.exception.StorageFileNotFoundException;
 import com.example.AccountingOfficeManagerServer.entity.model.Document;
+import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
 import com.example.AccountingOfficeManagerServer.service.DocumentService;
 import com.example.AccountingOfficeManagerServer.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -89,5 +90,15 @@ public class DocumentController {
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/user/{id}")
+    public List<Document> listForUser(@PathVariable Integer id) {
+        return documentService.listAllDocumentsForUser(id);
+    }
+
+    @GetMapping("/company/{id}")
+    public List<Document> listForCompany(@PathVariable Integer id) {
+        return documentService.listAllDocumentsForCompany(id);
     }
 }

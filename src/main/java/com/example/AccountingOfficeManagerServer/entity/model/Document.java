@@ -16,6 +16,7 @@ public class Document implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int document_id;
     private String path;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "company_id")
@@ -26,6 +27,7 @@ public class Document implements Serializable {
     @JoinColumn(name = "client_id")
 //    @JsonBackReference(value="client_document")
     private Client client;
+
 
     public Document() {
     }
@@ -46,6 +48,14 @@ public class Document implements Serializable {
         this.path = path;
         this.company = company;
         this.client = client;
+    }
+
+    public Document(int document_id, String path, ClientCompany company, Client client, String description) {
+        this.document_id = document_id;
+        this.path = path;
+        this.company = company;
+        this.client = client;
+        this.description = description;
     }
 
     public int getDocument_id() {
@@ -80,6 +90,14 @@ public class Document implements Serializable {
         this.client = client;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Document{" +
@@ -87,6 +105,7 @@ public class Document implements Serializable {
                 ", \"path\": '" + path + '\'' +
                 ", \"company\": " + company +
                 ", \"client\": " + client +
+                ", \"description\": '" + description + '\'' +
                 '}';
     }
 }
