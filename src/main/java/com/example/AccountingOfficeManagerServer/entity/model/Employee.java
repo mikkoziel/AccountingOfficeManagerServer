@@ -8,27 +8,28 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "employee")
-//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="user_id")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="user_id")
 public class Employee extends User implements Serializable {
 
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="admin")
+//    @JsonManagedReference(value="admin")
     private List<Employee> employees = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "admin_id")
-    @JsonBackReference(value="admin")
+//    @JsonBackReference(value="admin")
     private Employee admin;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="client")
+//    @JsonManagedReference(value="client")
     private List<Client> clients = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    @JsonManagedReference(value="worklog")
+//    @JsonManagedReference(value="worklog")
     private List<WorkLog> worklog = new ArrayList<>();
 
     public Employee() {
@@ -88,12 +89,12 @@ public class Employee extends User implements Serializable {
                 ", \"last_name\": '" + last_name + '\'' +
                 ", \"username\": '" + username + '\'' +
 //                ", \"password\": '" + password + '\'' +
-                ", \"company\": " + company +
+                ", \"company\": " + company.getName() +
                 ", \"roles\": " + roles +
-                ", \"employees\": " + employees +
-                ", \"admin\": " + admin +
-                ", \"clients\": " + clients +
-                ", \"worklog\": " + worklog +
+                ", \"employees\": " + employees.stream().map(Employee::getUser_id).collect(Collectors.toList()) +
+                ", \"admin\": " + admin.getUser_id() +
+                ", \"clients\": " + clients.stream().map(Client::getUser_id).collect(Collectors.toList()) +
+                ", \"worklog\": " + worklog.stream().map(WorkLog::getWorklog_id).collect(Collectors.toList()) +
                 '}';
     }
 }

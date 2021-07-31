@@ -27,6 +27,7 @@ public class User implements UserDetails, Serializable {
     @ManyToOne
     @JoinColumn(name = "company_id")
 //    @JsonManagedReference(value="user-company")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     protected Company company;
 
     @ManyToMany
@@ -37,6 +38,10 @@ public class User implements UserDetails, Serializable {
     protected List<Role> roles = new ArrayList<>();
 
     public User() {
+    }
+
+    public User(int user_id) {
+        this.user_id = user_id;
     }
 
     public User(String username, String password) {
