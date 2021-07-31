@@ -21,7 +21,7 @@ public class Company implements Serializable {
     protected int company_id;
     protected String name;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "company")
 //    @JsonBackReference(value="user-company")
     protected List<User> users = new ArrayList<>();
 

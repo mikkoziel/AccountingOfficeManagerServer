@@ -27,6 +27,7 @@ public class User implements UserDetails, Serializable {
     @ManyToOne
     @JoinColumn(name = "company_id")
 //    @JsonManagedReference(value="user-company")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     protected Company company;
 
     @ManyToMany

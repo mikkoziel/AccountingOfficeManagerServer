@@ -1,6 +1,7 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="company_id")
 public class AccountingOffice extends Company implements Serializable {
 
-    @OneToMany(mappedBy = "accounting_office", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "accounting_office", fetch=FetchType.LAZY)
 //    @JsonManagedReference(value="clients")
     private List<ClientCompany> clientCompanies = new ArrayList<>();
 

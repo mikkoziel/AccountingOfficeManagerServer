@@ -42,4 +42,6 @@ public class EmployeeService {
     public void deleteUser(Integer id) {
         employeeRepository.deleteById(id);
     }
+
+    public List<Employee> findByAdmin( Integer id) { return employeeRepository.findByAdmin(id); }
 }
