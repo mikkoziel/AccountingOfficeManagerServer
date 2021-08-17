@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 public class CalendarController {
     @Autowired
     CalendarService calendarService;
-    private static final Logger logger = LoggerFactory.getLogger(CalendarService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CalendarController.class);
 
     @GetMapping("")
     public List<Calendar> list() {

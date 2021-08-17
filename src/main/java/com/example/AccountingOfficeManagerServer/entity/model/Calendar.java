@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "accounting_office")
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="calendar-id")
+@Table(name = "calendar")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="calendar_id")
 public class Calendar implements Serializable {
 
     @Id
@@ -19,7 +19,6 @@ public class Calendar implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-//    @JsonManagedReference(value="user-company")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     protected User user;
 

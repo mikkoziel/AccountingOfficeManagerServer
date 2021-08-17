@@ -26,9 +26,11 @@ public class User implements UserDetails, Serializable {
 
     @ManyToOne
     @JoinColumn(name = "company_id")
-//    @JsonManagedReference(value="user-company")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     protected Company company;
+
+    @OneToMany(mappedBy = "user")
+    protected List<Calendar> calendars = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -56,6 +58,17 @@ public class User implements UserDetails, Serializable {
         this.username = username;
         this.password = password;
         this.company = company;
+        this.roles = roles;
+    }
+
+    public User(int user_id, String first_name, String last_name, String username, String password, Company company, List<Calendar> events, List<Role> roles) {
+        this.user_id = user_id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.username = username;
+        this.password = password;
+        this.company = company;
+        this.calendars = events;
         this.roles = roles;
     }
 
@@ -113,6 +126,14 @@ public class User implements UserDetails, Serializable {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Calendar> getCalendars() {
+        return calendars;
+    }
+
+    public void setCalendars(List<Calendar> events) {
+        this.calendars = events;
     }
 
     @Override

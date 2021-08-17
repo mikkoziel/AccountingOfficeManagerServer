@@ -1,7 +1,6 @@
 package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
-import com.example.AccountingOfficeManagerServer.service.UserService;
 import com.example.AccountingOfficeManagerServer.service.WorkLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,7 @@ import java.util.NoSuchElementException;
 public class WorkLogController {
     @Autowired
     WorkLogService workLogService;
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LoggerFactory.getLogger(WorkLogController.class);
 
     @GetMapping("")
     public List<WorkLog> list() {
