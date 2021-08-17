@@ -1,6 +1,7 @@
 package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Calendar;
+import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
 import com.example.AccountingOfficeManagerServer.service.CalendarService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,4 +56,10 @@ public class CalendarController {
     public void delete(@PathVariable Integer id) {
         calendarService.deleteCalendar(id);
     }
+
+    @GetMapping("/user/{id}")
+    public List<Calendar> listForUser(@PathVariable Integer id) {
+        return calendarService.listAllCalendarForUser(id);
+    }
+
 }

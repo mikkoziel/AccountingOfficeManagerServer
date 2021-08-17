@@ -1,6 +1,7 @@
 package com.example.AccountingOfficeManagerServer.service;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Calendar;
+import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
 import com.example.AccountingOfficeManagerServer.repository.CalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,6 @@ public class CalendarService {
     public void deleteCalendar(Integer id) {
         calendarRepository.deleteById(id);
     }
+
+    public List<Calendar> listAllCalendarForUser(Integer user_id) {return calendarRepository.findByUserId(user_id);}
 }
