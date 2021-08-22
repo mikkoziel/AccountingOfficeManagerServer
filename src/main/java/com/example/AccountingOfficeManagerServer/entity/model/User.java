@@ -29,7 +29,14 @@ public class User implements UserDetails, Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     protected Company company;
 
-    @OneToMany(mappedBy = "user")
+//    @OneToMany(mappedBy = "user")
+//    protected List<Calendar> calendars = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "calendar_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "calendar_id"))
     protected List<Calendar> calendars = new ArrayList<>();
 
     @ManyToMany

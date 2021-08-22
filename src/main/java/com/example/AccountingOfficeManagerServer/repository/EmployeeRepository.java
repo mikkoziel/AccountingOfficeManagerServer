@@ -16,7 +16,16 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
     @Query(value = "SELECT * FROM employee" +
             " JOIN user" +
             " ON employee.user_id=user.user_id" +
-            " AND employee.admin_id=?1"
-            , nativeQuery = true)
+            " AND employee.admin_id=?1",
+            nativeQuery = true)
     List<Employee> findByAdmin(Integer admin_id);
+
+    @Query(value = "SELECT * FROM employee" +
+            " JOIN client" +
+            " ON client.employee_id=employee.user_id" +
+            " JOIN user" +
+            " ON user.user_id=client.user_id" +
+            " AND user.company_id=?1",
+            nativeQuery = true)
+    List<Employee> findByClientCompany(Integer ccompany_id);
 }
