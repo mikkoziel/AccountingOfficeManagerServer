@@ -44,4 +44,7 @@ public class EmployeeService {
     }
 
     public List<Employee> findByAdmin( Integer id) { return employeeRepository.findByAdmin(id); }
+
+    public List<Employee> findByClientCompany(Integer id) { return employeeRepository.findByClientCompany(id); }
+
 }

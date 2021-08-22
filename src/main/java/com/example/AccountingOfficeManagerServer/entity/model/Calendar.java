@@ -1,12 +1,13 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "calendar")
@@ -17,10 +18,8 @@ public class Calendar implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int calendar_id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    protected User user;
+    @ManyToMany(mappedBy = "calendars")
+    private List<User> users = new ArrayList<>();
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date start_date;
@@ -33,9 +32,9 @@ public class Calendar implements Serializable {
     public Calendar() {
     }
 
-    public Calendar(int calendar_id, User user, Date start_date, Date end_date, String title, Boolean all_day) {
+    public Calendar(int calendar_id, List<User> users, Date start_date, Date end_date, String title, Boolean all_day) {
         this.calendar_id = calendar_id;
-        this.user = user;
+        this.users = users;
         this.start_date = start_date;
         this.end_date = end_date;
         this.title = title;
@@ -50,12 +49,12 @@ public class Calendar implements Serializable {
         this.calendar_id = calendar_id;
     }
 
-    public User getUser() {
-        return user;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public Date getStart_date() {
@@ -94,7 +93,6 @@ public class Calendar implements Serializable {
     public String toString() {
         return "Calendar{" +
                 "\"calendar_id\": " + calendar_id +
-                ", \"user\": " + user.getUser_id() +
                 ", \"start_date\": \"" + start_date.toString() +
                 "\", \"end_date\": \"" + end_date.toString() +
                 "\", \"title\": \"" + title + '\"' +

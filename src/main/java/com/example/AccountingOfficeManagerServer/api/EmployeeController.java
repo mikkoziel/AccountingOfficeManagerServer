@@ -69,4 +69,15 @@ public class EmployeeController {
             return new ResponseEntity<List<Employee>>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/ccompany/{id}")
+    public ResponseEntity<List<Employee>> getByClientCompany(@PathVariable Integer id) {
+        try {
+            List<Employee> employees = employeeService.findByClientCompany(id);
+            return new ResponseEntity<List<Employee>>(employees, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<List<Employee>>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
