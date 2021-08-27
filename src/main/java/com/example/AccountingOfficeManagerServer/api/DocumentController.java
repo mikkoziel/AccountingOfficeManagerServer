@@ -60,9 +60,9 @@ public class DocumentController {
     public void add(@RequestParam("file") MultipartFile file,
                     @RequestParam("document") String document_data) {
         try {
-            String path = documentService.store(file);
             ObjectMapper objectMapper = new ObjectMapper();
             Document document = objectMapper.readValue(document_data, Document.class);
+            String path = documentService.store(file, document);
             document.setPath(path);
             documentService.saveDocument(document);
         } catch (JsonProcessingException e) {

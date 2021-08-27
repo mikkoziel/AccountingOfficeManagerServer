@@ -6,6 +6,9 @@ import com.example.AccountingOfficeManagerServer.entity.exception.StorageFileNot
 import com.example.AccountingOfficeManagerServer.entity.model.Document;
 import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
 import com.example.AccountingOfficeManagerServer.repository.DocumentRepository;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -17,11 +20,16 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.UserDefinedFileAttributeView;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
@@ -30,6 +38,7 @@ public class DocumentService {
     @Autowired
     private DocumentRepository documentRepository;
     private final Path rootLocation;
+    private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     @Autowired
     public DocumentService(StorageProperties properties) {
@@ -56,28 +65,35 @@ public class DocumentService {
 
     public List<Document> listAllDocumentsForCompany(Integer company_id) {return documentRepository.findByCompanyId(company_id);}
 
-    public String store(MultipartFile file) {
+    public String store(MultipartFile file, Document document) {
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
             Path destinationFile = this.rootLocation.resolve(
-                    Paths.get(file.getOriginalFilename()))
+                    Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
                     .normalize().toAbsolutePath();
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-                // This is a security check
-                throw new StorageException(
-                        "Cannot store file outside current directory.");
+                throw new StorageException("Cannot store file outside current directory.");
             }
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile,
                         StandardCopyOption.REPLACE_EXISTING);
             }
+            this.setFileMetaData(destinationFile, document);
             return destinationFile.toString();
         }
         catch (IOException e) {
             throw new StorageException("Failed to store file.", e);
         }
+    }
+
+    public void setFileMetaData(Path path, Document document) throws IOException {
+        PDDocument pdfDoc = PDDocument.load(path.toFile());
+        pdfDoc.getDocumentInformation().setCustomMetadataValue("transfer-date", new Date().toString());
+        pdfDoc.getDocumentInformation().setCustomMetadataValue("transfer-client", String.valueOf(document.getClient().getUser_id()));
+        pdfDoc.getDocumentInformation().setCustomMetadataValue("transfer-company", String.valueOf(document.getCompany().getCompany_id()));
+        pdfDoc.save(path.toFile());
     }
 
     public Stream<Path> loadAll() {
