@@ -30,6 +30,14 @@ public class ClientCompany extends Company implements Serializable {
     public ClientCompany() {
     }
 
+    public AccountingOffice getAccounting_office() {
+        return accounting_office;
+    }
+
+    public void setAccounting_office(AccountingOffice accounting_office) {
+        this.accounting_office = accounting_office;
+    }
+
     public List<Document> getDocuments() {
         return documents;
     }
