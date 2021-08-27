@@ -1,6 +1,10 @@
 package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.ClientCompany;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.RegisterCC;
+import com.example.AccountingOfficeManagerServer.service.CCService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +17,9 @@ import java.util.NoSuchElementException;
 @RequestMapping("/cc")
 public class CCController {
     @Autowired
-    com.example.AccountingOfficeManagerServer.service.CCService CCService;
+    CCService CCService;
+
+    private static final Logger logger = LoggerFactory.getLogger(CCController.class);
 
     @GetMapping("")
     public List<ClientCompany> list() {
@@ -35,6 +41,12 @@ public class CCController {
         CCService.saveClientCompany(clientCompany);
     }
 
+    @PostMapping("/register")
+    public void register(@RequestBody RegisterCC registerCC) {
+        CCService.registerClientCompany(registerCC);
+    }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody ClientCompany clientCompany, @PathVariable Integer id) {
         try {
@@ -50,5 +62,15 @@ public class CCController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         CCService.deleteClientCompany(id);
+    }
+
+    @GetMapping("/ao/{id}")
+    public ResponseEntity<List<ClientCompany>> getByAO(@PathVariable Integer id) {
+        try {
+            List<ClientCompany> ccs = CCService.findByAO(id);
+            return new ResponseEntity<>(ccs, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

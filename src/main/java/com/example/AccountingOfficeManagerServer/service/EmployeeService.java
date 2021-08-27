@@ -27,12 +27,12 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public void saveUser(Employee employee) {
+    public Employee saveUser(Employee employee) {
         if (employeeRepository.findByUsername(employee.getUsername()) != null) {
             throw new ValidationException("Username exists!");
         }
         employee.setPassword(passwordEncoder.encode(employee.getPassword()).replace("{bcrypt}",""));
-        employeeRepository.save(employee);
+        return employeeRepository.save(employee);
     }
 
     public Employee getUser(Integer id) {

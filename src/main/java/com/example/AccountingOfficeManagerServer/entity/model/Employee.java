@@ -92,7 +92,7 @@ public class Employee extends User implements Serializable {
                 ", \"company\": " + company.getName() +
                 ", \"roles\": " + roles +
                 ", \"employees\": " + employees.stream().map(Employee::getUser_id).collect(Collectors.toList()) +
-                ", \"admin\": " + admin.getUser_id() +
+//                ", \"admin\": " + admin.getUser_id() +
                 ", \"clients\": " + clients.stream().map(Client::getUser_id).collect(Collectors.toList()) +
                 ", \"worklog\": " + worklog.stream().map(WorkLog::getWorklog_id).collect(Collectors.toList()) +
                 '}';
