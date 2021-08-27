@@ -30,16 +30,17 @@ public class EmployeeController {
     public ResponseEntity<Employee> get(@PathVariable Integer id) {
         try {
             Employee employee = employeeService.getUser(id);
-//            logger.info(employee.toString());
-            return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+            return new ResponseEntity<>(employee, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/")
-    public void add(@RequestBody Employee employee) {
-        employeeService.saveUser(employee);
+    public ResponseEntity<Employee> add(@RequestBody Employee employee) {
+//        logger.info(employee.toString());
+        Employee saved_employee = employeeService.saveUser(employee);
+        return new ResponseEntity<>(saved_employee, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -64,9 +65,9 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getByAdmin(@PathVariable Integer id) {
         try {
             List<Employee> employees = employeeService.findByAdmin(id);
-            return new ResponseEntity<List<Employee>>(employees, HttpStatus.OK);
+            return new ResponseEntity<>(employees, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<List<Employee>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -74,9 +75,9 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getByClientCompany(@PathVariable Integer id) {
         try {
             List<Employee> employees = employeeService.findByClientCompany(id);
-            return new ResponseEntity<List<Employee>>(employees, HttpStatus.OK);
+            return new ResponseEntity<>(employees, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<List<Employee>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
