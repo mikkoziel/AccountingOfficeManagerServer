@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 @Entity
@@ -133,6 +134,17 @@ public class User implements UserDetails, Serializable {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(Role role) { this.roles.add(role); }
+
+    public void cleanRoles() {
+        Iterator<Role> i = this.roles.iterator();
+        while (i.hasNext()) {
+            Role role = i.next();
+            role.removeUser(this);
+            i.remove();
+        }
     }
 
     public List<Calendar> getCalendars() {

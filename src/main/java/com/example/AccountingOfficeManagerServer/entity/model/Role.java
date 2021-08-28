@@ -59,6 +59,8 @@ public class Role implements GrantedAuthority, Serializable {
         this.users = users;
     }
 
+    public void removeUser(User user) {this.users.remove(user);}
+
     @Override
     public String toString() {
         return "Role{" +

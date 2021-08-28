@@ -37,7 +37,7 @@ public class EmployeeService {
             throw new ValidationException("Username exists!");
         }
         if (employee.getCompany() == null){
-            logger.info("tutaj");
+//            logger.info("tutaj");
             User admin = this.getUser(employee.getAdmin().getUser_id());
             employee.setCompany(admin.getCompany());
         }

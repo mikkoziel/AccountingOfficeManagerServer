@@ -84,4 +84,9 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    @PostMapping("/updateRole/{id}")
+    public void changeUserRole(@PathVariable Integer user_id, @RequestBody Integer role_id) {
+        this.userService.changeUserRole(user_id, role_id);
+    }
 }
