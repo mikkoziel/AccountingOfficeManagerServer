@@ -32,4 +32,6 @@ public class ClientService {
 
     public List<Client> listAllClientForUser(Integer user_id) {return clientRepository.findByEmployeeId(user_id);}
 
+    public List<Client> listAllClientForCC(Integer company_id) {return clientRepository.findByCompanyId(company_id);}
+
 }

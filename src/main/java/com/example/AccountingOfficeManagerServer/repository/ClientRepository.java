@@ -18,4 +18,13 @@ public interface ClientRepository extends JpaRepository<Client, Integer>{
             " ON user.company_id=company.company_id"
             , nativeQuery = true)
     List<Client> findByEmployeeId(Integer user_id);
+
+    @Query(value = "SELECT * FROM client" +
+            " JOIN user" +
+            " ON client.user_id=user.user_id" +
+            " AND user.company_id=?1" //+
+//            " JOIN company" +
+//            " ON user.company_id=company.company_id"
+            , nativeQuery = true)
+    List<Client> findByCompanyId(Integer company_id);
 }
