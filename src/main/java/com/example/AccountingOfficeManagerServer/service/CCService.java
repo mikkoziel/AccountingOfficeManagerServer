@@ -41,7 +41,10 @@ public class CCService {
         CCRepository.deleteById(id);
     }
 
-    public List<ClientCompany> findByAO(Integer id) { return CCRepository.findByAO(id); }
+    public List<ClientCompany> findByAO(Integer id) {
+        User user = this.userRepository.getById(id);
+        return CCRepository.findByAO(user.getCompany().getCompany_id());
+    }
 
     public void registerClientCompany(RegisterCC registerCC){
         User user = this.userRepository.getById(registerCC.getId());

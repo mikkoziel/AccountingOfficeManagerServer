@@ -1,8 +1,5 @@
 package com.example.AccountingOfficeManagerServer.entity.model;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,7 +19,8 @@ public class Company implements Serializable {
     protected String name;
 
     @OneToMany(mappedBy = "company")
-//    @JsonBackReference(value="user-company")
+//    @JsonBackReference(value="user-
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     protected List<User> users = new ArrayList<>();
 
     public Company() {
