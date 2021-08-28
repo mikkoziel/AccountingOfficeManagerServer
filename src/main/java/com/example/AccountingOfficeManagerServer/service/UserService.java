@@ -30,7 +30,6 @@ public class UserService implements UserDetailsService {
 
     public UserService() {
         this.passwordEncoder = new BCryptPasswordEncoder();
-
     }
 
     public UserService(PasswordEncoder passwordEncoder){
@@ -41,12 +40,12 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         if (userRepository.findByUsername(user.getUsername()) != null) {
             throw new ValidationException("Username exists!");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public User getUser(Integer id) {

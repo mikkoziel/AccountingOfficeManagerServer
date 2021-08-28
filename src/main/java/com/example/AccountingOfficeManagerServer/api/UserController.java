@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -38,8 +39,13 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public void add(@RequestBody User user) {
-        userService.saveUser(user);
+    public ResponseEntity<User> add(@RequestBody User user) {
+        try{
+            User saved_user = userService.saveUser(user);
+            return new ResponseEntity<>(saved_user, HttpStatus.OK);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/{id}")
