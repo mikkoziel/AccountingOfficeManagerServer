@@ -2,6 +2,7 @@ package com.example.AccountingOfficeManagerServer.service;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Role;
 import com.example.AccountingOfficeManagerServer.entity.model.User;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.ChangeRole;
 import com.example.AccountingOfficeManagerServer.repository.RoleRepository;
 import com.example.AccountingOfficeManagerServer.repository.UserRepository;
 import org.slf4j.Logger;
@@ -79,9 +80,9 @@ public class UserService implements UserDetailsService {
         this.userRepository.save(user);
     }
 
-    public void changeUserRole(Integer user_id, Integer role_id){
+    public void changeUserRole(Integer user_id, ChangeRole changeRole){
         User user = this.getUser(user_id);
-        Role role = this.roleRepository.findById(role_id).get();
+        Role role = this.roleRepository.findById(changeRole.getRole_id()).get();
         user.cleanRoles();
         user.addRole(role);
     }

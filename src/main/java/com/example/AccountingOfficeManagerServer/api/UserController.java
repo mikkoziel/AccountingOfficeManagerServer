@@ -1,6 +1,7 @@
 package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.User;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.ChangeRole;
 import com.example.AccountingOfficeManagerServer.service.UserService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
@@ -86,7 +87,7 @@ public class UserController {
     }
 
     @PostMapping("/updateRole/{id}")
-    public void changeUserRole(@PathVariable Integer user_id, @RequestBody Integer role_id) {
-        this.userService.changeUserRole(user_id, role_id);
+    public void changeUserRole(@PathVariable Integer id, @RequestBody ChangeRole role) {
+        this.userService.changeUserRole(id, role);
     }
 }
