@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -30,15 +31,20 @@ public class ClientController {
     public ResponseEntity<Client> get(@PathVariable Integer id) {
         try {
             Client client = clientService.getClient(id);
-            return new ResponseEntity<Client>(client, HttpStatus.OK);
+            return new ResponseEntity<>(client, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/")
-    public void add(@RequestBody Client client) {
-        clientService.saveClient(client);
+    public ResponseEntity<Client> add(@RequestBody Client client) {
+        try {
+            Client saved_client = clientService.saveClient(client);
+            return new ResponseEntity<>(saved_client, HttpStatus.OK);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/{id}")

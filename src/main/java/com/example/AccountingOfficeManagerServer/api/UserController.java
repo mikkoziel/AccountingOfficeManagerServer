@@ -1,6 +1,7 @@
 package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.User;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.ChangeRole;
 import com.example.AccountingOfficeManagerServer.service.UserService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -38,8 +40,13 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public void add(@RequestBody User user) {
-        userService.saveUser(user);
+    public ResponseEntity<User> add(@RequestBody User user) {
+        try{
+            User saved_user = userService.saveUser(user);
+            return new ResponseEntity<>(saved_user, HttpStatus.OK);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/{id}")
@@ -77,5 +84,10 @@ public class UserController {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    @PostMapping("/updateRole/{id}")
+    public void changeUserRole(@PathVariable Integer id, @RequestBody ChangeRole role) {
+        this.userService.changeUserRole(id, role);
     }
 }

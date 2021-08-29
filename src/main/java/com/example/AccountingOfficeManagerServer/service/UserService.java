@@ -1,17 +1,16 @@
 package com.example.AccountingOfficeManagerServer.service;
 
+import com.example.AccountingOfficeManagerServer.entity.model.Role;
 import com.example.AccountingOfficeManagerServer.entity.model.User;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.ChangeRole;
+import com.example.AccountingOfficeManagerServer.repository.RoleRepository;
 import com.example.AccountingOfficeManagerServer.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +25,12 @@ public class UserService implements UserDetailsService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UserService() {
         this.passwordEncoder = new BCryptPasswordEncoder();
-
     }
 
     public UserService(PasswordEncoder passwordEncoder){
@@ -41,12 +41,12 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         if (userRepository.findByUsername(user.getUsername()) != null) {
             throw new ValidationException("Username exists!");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public User getUser(Integer id) {
@@ -78,5 +78,12 @@ public class UserService implements UserDetailsService {
         String encodedPassword = passwordEncoder.encode(password).replace("{bcrypt}", "");
         user.setPassword(encodedPassword);
         this.userRepository.save(user);
+    }
+
+    public void changeUserRole(Integer user_id, ChangeRole changeRole){
+        User user = this.getUser(user_id);
+        Role role = this.roleRepository.findById(changeRole.getRole_id()).get();
+        user.cleanRoles();
+        user.addRole(role);
     }
 }
