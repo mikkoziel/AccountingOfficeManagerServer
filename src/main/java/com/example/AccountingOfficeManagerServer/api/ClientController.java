@@ -2,6 +2,7 @@ package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Client;
 import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.AssignClientToEmployee;
 import com.example.AccountingOfficeManagerServer.service.ClientService;
 import com.example.AccountingOfficeManagerServer.service.UserService;
 import org.slf4j.Logger;
@@ -72,5 +73,15 @@ public class ClientController {
     @GetMapping("/cc/{id}")
     public List<Client> listForCC(@PathVariable Integer id) {
         return clientService.listAllClientForCC(id);
+    }
+
+    @GetMapping("/admin/{id}")
+    public List<Client> listForAdmin(@PathVariable Integer id) {
+        return clientService.listAllClientForAdmin(id);
+    }
+
+    @PostMapping("/employee")
+    public void assignEmployee(@RequestBody AssignClientToEmployee assign) {
+        clientService.assignEmployee(assign);
     }
 }
