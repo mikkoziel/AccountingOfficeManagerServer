@@ -1,6 +1,9 @@
 package com.example.AccountingOfficeManagerServer.service;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Client;
+import com.example.AccountingOfficeManagerServer.entity.model.Employee;
+import com.example.AccountingOfficeManagerServer.entity.model.User;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.AssignClientToEmployee;
 import com.example.AccountingOfficeManagerServer.repository.ClientRepository;
 import com.example.AccountingOfficeManagerServer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ public class ClientService {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EmployeeService employeeService;
 
     public ClientService(){
         this.passwordEncoder = new BCryptPasswordEncoder();
@@ -48,5 +53,13 @@ public class ClientService {
     public List<Client> listAllClientForUser(Integer user_id) {return clientRepository.findByEmployeeId(user_id);}
 
     public List<Client> listAllClientForCC(Integer company_id) {return clientRepository.findByCompanyId(company_id);}
+
+    public List<Client> listAllClientForAdmin(Integer user_id) {return clientRepository.findByAdminId(user_id);}
+
+    public void assignEmployee(AssignClientToEmployee assign){
+        Employee employee = this.employeeService.getUser(assign.getEmployee_id());
+        Client client = this.getClient(assign.getClient_id());
+        client.setEmployee(employee);
+    }
 
 }
