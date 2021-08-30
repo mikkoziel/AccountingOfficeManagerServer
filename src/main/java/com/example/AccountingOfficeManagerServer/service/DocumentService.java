@@ -3,8 +3,9 @@ package com.example.AccountingOfficeManagerServer.service;
 import com.example.AccountingOfficeManagerServer.entity.configuration.StorageProperties;
 import com.example.AccountingOfficeManagerServer.entity.exception.StorageException;
 import com.example.AccountingOfficeManagerServer.entity.exception.StorageFileNotFoundException;
+import com.example.AccountingOfficeManagerServer.entity.model.ClientCompany;
 import com.example.AccountingOfficeManagerServer.entity.model.Document;
-import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
+import com.example.AccountingOfficeManagerServer.entity.model.User;
 import com.example.AccountingOfficeManagerServer.repository.DocumentRepository;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.slf4j.Logger;
@@ -20,13 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +35,9 @@ import java.util.stream.Stream;
 public class DocumentService {
     @Autowired
     private DocumentRepository documentRepository;
+    @Autowired
+    private UserService userService;
+
     private final Path rootLocation;
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
@@ -51,6 +52,14 @@ public class DocumentService {
 
     public void saveDocument(Document document) {
         documentRepository.save(document);
+    }
+
+    public void saveDocumentWithFile(Document document, MultipartFile file) {
+        User user = this.userService.getUser(document.getClient().getUser_id());
+        document.setCompany((ClientCompany) user.getCompany());
+        String path = this.store(file, document);
+        document.setPath(path);
+        this.saveDocument(document);
     }
 
     public Document getDocument(Integer id) {

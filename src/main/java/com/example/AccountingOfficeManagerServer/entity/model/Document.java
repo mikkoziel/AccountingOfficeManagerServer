@@ -16,6 +16,7 @@ public class Document implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int document_id;
     private String path;
+    private String name;
     private String description;
 
     @ManyToOne
@@ -58,6 +59,15 @@ public class Document implements Serializable {
         this.description = description;
     }
 
+    public Document(int document_id, String path, String name, String description, ClientCompany company, Client client) {
+        this.document_id = document_id;
+        this.path = path;
+        this.name = name;
+        this.description = description;
+        this.company = company;
+        this.client = client;
+    }
+
     public int getDocument_id() {
         return document_id;
     }
@@ -90,6 +100,14 @@ public class Document implements Serializable {
         this.client = client;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -103,6 +121,7 @@ public class Document implements Serializable {
         return "Document{" +
                 "\"document_id\": " + document_id +
                 ", \"path\": '" + path + '\'' +
+                ", \"name\": '" + name + '\'' +
                 ", \"company\": " + company +
                 ", \"client\": " + client +
                 ", \"description\": '" + description + '\'' +
