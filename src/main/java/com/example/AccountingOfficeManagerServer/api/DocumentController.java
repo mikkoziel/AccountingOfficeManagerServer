@@ -62,9 +62,7 @@ public class DocumentController {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Document document = objectMapper.readValue(document_data, Document.class);
-            String path = documentService.store(file, document);
-            document.setPath(path);
-            documentService.saveDocument(document);
+            documentService.saveDocumentWithFile(document, file);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         };

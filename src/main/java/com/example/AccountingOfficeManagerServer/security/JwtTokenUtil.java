@@ -20,7 +20,7 @@ public class JwtTokenUtil {
                 .setSubject(format("%s,%s", user.getUser_id(), user.getUsername()))
                 .setIssuer(jwtIssuer)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 2 * 60 * 60 * 1000)) // 2 hours
+                .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 60 * 1000)) // 5 hours
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
