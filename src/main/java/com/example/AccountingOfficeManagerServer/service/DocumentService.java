@@ -25,6 +25,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +40,8 @@ public class DocumentService {
     private DocumentRepository documentRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CCService ccService;
 
     private final Path rootLocation;
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
@@ -56,8 +61,10 @@ public class DocumentService {
 
     public void saveDocumentWithFile(Document document, MultipartFile file) {
         User user = this.userService.getUser(document.getClient().getUser_id());
-        document.setCompany((ClientCompany) user.getCompany());
-        String path = this.store(file, document);
+        ClientCompany cc = this.ccService.getClientCompany(user.getCompany().getCompany_id());
+        document.setCompany(cc);
+        String modifiedFileName = this.modifyFileName(file, document);
+        String path = this.store(file, document, modifiedFileName);
         document.setPath(path);
         this.saveDocument(document);
     }
@@ -74,13 +81,25 @@ public class DocumentService {
 
     public List<Document> listAllDocumentsForCompany(Integer company_id) {return documentRepository.findByCompanyId(company_id);}
 
-    public String store(MultipartFile file, Document document) {
+    public String modifyFileName(MultipartFile file, Document document){
+        String original = file.getOriginalFilename();
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmssS");
+        String dateString = format.format(new Date());
+        if(original != null) {
+            String extension = original.substring(original.lastIndexOf(".") + 1);
+            String orig = original.substring(0, original.lastIndexOf("."));
+            return orig + "_" + document.getClient().getUser_id() + "_" + dateString + "." + extension;
+        }
+        return document.getClient().getUser_id() + "_" + dateString + ".pdf";
+    }
+
+    public String store(MultipartFile file, Document document, String modifiedFileName) {
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
             Path destinationFile = this.rootLocation.resolve(
-                    Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
+                    Paths.get(Objects.requireNonNull(modifiedFileName)))
                     .normalize().toAbsolutePath();
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 throw new StorageException("Cannot store file outside current directory.");
