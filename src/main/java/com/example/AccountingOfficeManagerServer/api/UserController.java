@@ -63,7 +63,6 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-
         userService.deleteUser(id);
     }
 
@@ -89,5 +88,11 @@ public class UserController {
     @PostMapping("/updateRole/{id}")
     public void changeUserRole(@PathVariable Integer id, @RequestBody ChangeRole role) {
         this.userService.changeUserRole(id, role);
+    }
+
+    @GetMapping("/part/{id}")
+    public ResponseEntity<List<User>> getParticipants(@PathVariable Integer id) {
+        List<User> participants = this.userService.getParticipants(id);
+        return new ResponseEntity<>(participants, HttpStatus.OK);
     }
 }
