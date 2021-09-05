@@ -57,6 +57,10 @@ public class Calendar implements Serializable {
         this.users = users;
     }
 
+    public void addUser(User user) { this.users.add(user); }
+
+    public void addUsers(List<User> users) { this.users.addAll(users); }
+
     public Date getStart_date() {
         return start_date;
     }
