@@ -102,8 +102,8 @@ public class UserService implements UserDetailsService {
         User user = this.getUser(user_id);
         String user_role = user.getRoles().get(0).getName();
         String client_role = RoleEnum.CLIENT.toString();
-        logger.info(user_role);
-        logger.info(client_role);
+//        logger.info(user_role);
+//        logger.info(client_role);
         if(Objects.equals(user_role, client_role)){
             Client client = this.clientService.getClient(user_id);
             List<User> users = new ArrayList<>(client.getCompany().getUsers());
