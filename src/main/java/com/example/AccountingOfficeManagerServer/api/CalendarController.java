@@ -2,6 +2,7 @@ package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Calendar;
 import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.AddCalendarEvent;
 import com.example.AccountingOfficeManagerServer.service.CalendarService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,5 +62,16 @@ public class CalendarController {
     public List<Calendar> listForUser(@PathVariable Integer id) {
         return calendarService.listAllCalendarForUser(id);
     }
+
+    @PostMapping("/parts/")
+    public ResponseEntity<?> addForUsers(@RequestBody AddCalendarEvent calendarEvent) {
+        try {
+            calendarService.saveCalendarEvent(calendarEvent);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 }
