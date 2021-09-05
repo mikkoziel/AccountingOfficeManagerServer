@@ -155,6 +155,10 @@ public class User implements UserDetails, Serializable {
         this.calendars = events;
     }
 
+    public void addCalendar(Calendar calendar) { this.calendars.add(calendar); }
+
+    public void addCalendars(List<Calendar> calendars) { this.calendars.addAll(calendars); }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

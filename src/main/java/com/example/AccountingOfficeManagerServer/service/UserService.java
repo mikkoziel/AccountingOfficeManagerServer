@@ -1,8 +1,10 @@
 package com.example.AccountingOfficeManagerServer.service;
 
-import com.example.AccountingOfficeManagerServer.entity.model.Role;
-import com.example.AccountingOfficeManagerServer.entity.model.User;
+import com.example.AccountingOfficeManagerServer.entity.configuration.RoleEnum;
+import com.example.AccountingOfficeManagerServer.entity.model.*;
 import com.example.AccountingOfficeManagerServer.entity.modelpack.ChangeRole;
+import com.example.AccountingOfficeManagerServer.repository.ClientRepository;
+import com.example.AccountingOfficeManagerServer.repository.EmployeeRepository;
 import com.example.AccountingOfficeManagerServer.repository.RoleRepository;
 import com.example.AccountingOfficeManagerServer.repository.UserRepository;
 import org.slf4j.Logger;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -27,6 +31,13 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private ClientService clientService;
+    @Autowired
+    private EmployeeService employeeService;
+    @Autowired
+    private CompanyService companyService;
+
     private final PasswordEncoder passwordEncoder;
 
     public UserService() {
@@ -85,5 +96,27 @@ public class UserService implements UserDetailsService {
         Role role = this.roleRepository.findById(changeRole.getRole_id()).get();
         user.cleanRoles();
         user.addRole(role);
+    }
+
+    public List<User> getParticipants(Integer user_id){
+        User user = this.getUser(user_id);
+        String user_role = user.getRoles().get(0).getName();
+        String client_role = RoleEnum.CLIENT.toString();
+//        logger.info(user_role);
+//        logger.info(client_role);
+        if(Objects.equals(user_role, client_role)){
+            Client client = this.clientService.getClient(user_id);
+            List<User> users = new ArrayList<>(client.getCompany().getUsers());
+            users.remove(client);
+            users.add(client.getEmployee());
+            return users;
+        } else {
+            Employee employee = this.employeeService.getUser(user_id);
+            List<User> users = new ArrayList<>();
+            users.addAll(employee.getEmployees());
+            users.addAll(employee.getClients());
+            return users;
+        }
+
     }
 }
