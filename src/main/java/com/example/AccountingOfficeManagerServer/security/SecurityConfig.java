@@ -1,8 +1,10 @@
 package com.example.AccountingOfficeManagerServer.security;
 
+import com.example.AccountingOfficeManagerServer.entity.configuration.RoleEnum;
 import com.example.AccountingOfficeManagerServer.repository.UserRepository;
 import com.example.AccountingOfficeManagerServer.service.UserService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -80,16 +82,54 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .and();
 
-        // Set permissions on endpoints
+        // Permissions on endpoints
         http.authorizeRequests()
-                // Our public endpoints
+                // Public endpoints
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/employee/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/user/**").permitAll()
-                .antMatchers(HttpMethod.GET, "**").permitAll()
-                .antMatchers(HttpMethod.POST, "**").permitAll()
-                // Our private endpoints
-//                .antMatchers("/user/").hasRole("ADMIN")
+                // Private endpoints
+                .antMatchers("/ao/").hasAnyRole(
+                        RoleEnum.AO_ADMIN.toString())
+                .antMatchers("/calendar/").hasAnyRole(
+                        RoleEnum.ADMIN.toString(),
+                        RoleEnum.AO_ADMIN.toString(),
+                        RoleEnum.USER.toString(),
+                        RoleEnum.CLIENT.toString())
+                .antMatchers("/cc/register").hasAnyRole(
+                        RoleEnum.ADMIN.toString(),
+                        RoleEnum.AO_ADMIN.toString())
+                .antMatchers("/cc/").hasAnyRole(
+                        RoleEnum.ADMIN.toString(),
+                        RoleEnum.AO_ADMIN.toString(),
+                        RoleEnum.USER.toString(),
+                        RoleEnum.CLIENT.toString())
+                .antMatchers("/client/").hasAnyRole(
+                        RoleEnum.ADMIN.toString(),
+                        RoleEnum.AO_ADMIN.toString(),
+                        RoleEnum.USER.toString())
+                .antMatchers("/company/").hasAnyRole(
+                        RoleEnum.ADMIN.toString(),
+                        RoleEnum.AO_ADMIN.toString(),
+                        RoleEnum.USER.toString(),
+                        RoleEnum.CLIENT.toString())
+                .antMatchers("/documents/").hasAnyRole(
+                        RoleEnum.ADMIN.toString(),
+                        RoleEnum.AO_ADMIN.toString(),
+                        RoleEnum.USER.toString(),
+                        RoleEnum.CLIENT.toString())
+                .antMatchers("/employee/").hasAnyRole(
+                        RoleEnum.ADMIN.toString(),
+                        RoleEnum.AO_ADMIN.toString(),
+                        RoleEnum.USER.toString(),
+                        RoleEnum.CLIENT.toString())
+                .antMatchers("/user/").hasAnyRole(
+                        RoleEnum.ADMIN.toString(),
+                        RoleEnum.AO_ADMIN.toString(),
+                        RoleEnum.USER.toString(),
+                        RoleEnum.CLIENT.toString())
+                .antMatchers("/work-log/").hasAnyRole(
+                        RoleEnum.ADMIN.toString(),
+                        RoleEnum.AO_ADMIN.toString(),
+                        RoleEnum.USER.toString())
                 .anyRequest().authenticated();
 
         // Add JWT token filter
