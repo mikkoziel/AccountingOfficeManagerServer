@@ -88,9 +88,7 @@ public class ClientController {
 
     @GetMapping("/client-info/{id}")
     public ClientInfo getClientInfo(@PathVariable Integer id) {
-        ClientInfo info = clientService.getClientInfo(id);
-        logger.info(info.toString());
-        return info;
+        return clientService.getClientInfo(id);
     }
 
 }
