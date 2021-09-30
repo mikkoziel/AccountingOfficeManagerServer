@@ -65,7 +65,7 @@ public class Company implements Serializable {
 
     @Override
     public String toString() {
-        return "Company{" +
+        return "{" +
                 "\"company_id\": " + company_id +
                 ", \"name\": '" + name + '\'' +
                 ", \"users\": " + users.stream().map(User::getUser_id).collect(Collectors.toList()) +

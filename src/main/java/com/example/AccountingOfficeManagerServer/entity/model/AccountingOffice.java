@@ -36,7 +36,7 @@ public class AccountingOffice extends Company implements Serializable {
 
     @Override
     public String toString() {
-        return "AccountingOffice{" +
+        return "{" +
                 "\"company_id\": " + company_id +
                 ", \"name\": '" + name + '\'' +
                 ", \"users\": " + users +

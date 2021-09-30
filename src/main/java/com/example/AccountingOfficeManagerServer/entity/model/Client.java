@@ -52,7 +52,7 @@ public class Client extends User implements Serializable {
 
     @Override
     public String toString() {
-        return "Client{" +
+        return "{" +
                 " \"user_id\": " + user_id +
                 ", \"first_name\": '" + first_name + '\'' +
                 ", \"last_name\": '" + last_name + '\'' +

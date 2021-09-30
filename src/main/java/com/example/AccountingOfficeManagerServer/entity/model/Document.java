@@ -118,7 +118,7 @@ public class Document implements Serializable {
 
     @Override
     public String toString() {
-        return "Document{" +
+        return "{" +
                 "\"document_id\": " + document_id +
                 ", \"path\": '" + path + '\'' +
                 ", \"name\": '" + name + '\'' +

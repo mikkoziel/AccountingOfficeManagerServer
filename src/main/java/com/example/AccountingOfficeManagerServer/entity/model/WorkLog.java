@@ -74,7 +74,7 @@ public class WorkLog implements Serializable {
 
     @Override
     public String toString() {
-        return "WorkLog{" +
+        return "{" +
                 "\"worklog_id\": " + worklog_id +
                 ", \"date\": " + date +
                 ", \"duration\": " + duration +

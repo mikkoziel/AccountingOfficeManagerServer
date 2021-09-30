@@ -4,6 +4,7 @@ import com.example.AccountingOfficeManagerServer.entity.model.Client;
 import com.example.AccountingOfficeManagerServer.entity.model.Employee;
 import com.example.AccountingOfficeManagerServer.entity.model.User;
 import com.example.AccountingOfficeManagerServer.entity.modelpack.AssignClientToEmployee;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.ClientInfo;
 import com.example.AccountingOfficeManagerServer.repository.ClientRepository;
 import com.example.AccountingOfficeManagerServer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class ClientService {
     private UserRepository userRepository;
     @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private DocumentService documentService;
 
     public ClientService(){
         this.passwordEncoder = new BCryptPasswordEncoder();
@@ -61,5 +64,13 @@ public class ClientService {
         Client client = this.getClient(assign.getClient_id());
         client.setEmployee(employee);
     }
+
+    public ClientInfo getClientInfo(Integer id){
+        ClientInfo info = new ClientInfo();
+        info.setClient(this.getClient(id));
+        info.setDocuments(this.documentService.listAllDocumentsForUser(id));
+        return info;
+    }
+
 
 }
