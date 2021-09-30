@@ -3,6 +3,7 @@ package com.example.AccountingOfficeManagerServer.api;
 import com.example.AccountingOfficeManagerServer.entity.model.Client;
 import com.example.AccountingOfficeManagerServer.entity.model.WorkLog;
 import com.example.AccountingOfficeManagerServer.entity.modelpack.AssignClientToEmployee;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.ClientInfo;
 import com.example.AccountingOfficeManagerServer.service.ClientService;
 import com.example.AccountingOfficeManagerServer.service.UserService;
 import org.slf4j.Logger;
@@ -84,4 +85,12 @@ public class ClientController {
     public void assignEmployee(@RequestBody AssignClientToEmployee assign) {
         clientService.assignEmployee(assign);
     }
+
+    @GetMapping("/client-info/{id}")
+    public ClientInfo getClientInfo(@PathVariable Integer id) {
+        ClientInfo info = clientService.getClientInfo(id);
+        logger.info(info.toString());
+        return info;
+    }
+
 }
