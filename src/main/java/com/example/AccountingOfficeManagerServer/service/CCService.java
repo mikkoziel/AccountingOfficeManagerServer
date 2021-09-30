@@ -4,6 +4,7 @@ import com.example.AccountingOfficeManagerServer.api.CCController;
 import com.example.AccountingOfficeManagerServer.entity.model.AccountingOffice;
 import com.example.AccountingOfficeManagerServer.entity.model.ClientCompany;
 import com.example.AccountingOfficeManagerServer.entity.model.User;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.CCInfo;
 import com.example.AccountingOfficeManagerServer.entity.modelpack.RegisterCC;
 import com.example.AccountingOfficeManagerServer.repository.CCRepository;
 import com.example.AccountingOfficeManagerServer.repository.UserRepository;
@@ -22,6 +23,8 @@ public class CCService {
     private CCRepository CCRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ClientService clientService;
 
     private static final Logger logger = LoggerFactory.getLogger(CCService.class);
 
@@ -51,6 +54,13 @@ public class CCService {
         ClientCompany cc = registerCC.getCc();
         cc.setAccounting_office((AccountingOffice) user.getCompany());
         this.saveClientCompany(cc);
+    }
+
+    public CCInfo getCCInfo(Integer id){
+        CCInfo info = new CCInfo();
+        info.setCompany(this.getClientCompany(id));
+        info.setClients(this.clientService.listAllClientForCC(id));
+        return info;
     }
 
 }
