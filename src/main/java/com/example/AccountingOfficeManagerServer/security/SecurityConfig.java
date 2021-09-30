@@ -87,6 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Public endpoints
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/ao/register").permitAll()
+                .antMatchers("/**").permitAll()
                 // Private endpoints
 //                .antMatchers("/ao/").hasAnyRole(
 //                        RoleEnum.AO_ADMIN.toString())
