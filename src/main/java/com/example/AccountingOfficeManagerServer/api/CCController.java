@@ -1,6 +1,8 @@
 package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.ClientCompany;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.CCInfo;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.ClientInfo;
 import com.example.AccountingOfficeManagerServer.entity.modelpack.RegisterCC;
 import com.example.AccountingOfficeManagerServer.service.CCService;
 import org.slf4j.Logger;
@@ -72,5 +74,10 @@ public class CCController {
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/cc-info/{id}")
+    public CCInfo getCompanyInfo(@PathVariable Integer id) {
+        return CCService.getCCInfo(id);
     }
 }
