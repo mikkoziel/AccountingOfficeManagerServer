@@ -2,6 +2,7 @@ package com.example.AccountingOfficeManagerServer.service;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Employee;
 import com.example.AccountingOfficeManagerServer.entity.model.User;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.EmployeeInfo;
 import com.example.AccountingOfficeManagerServer.repository.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,8 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private ClientService clientService;
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
 
@@ -56,5 +59,15 @@ public class EmployeeService {
     public List<Employee> findByAdmin( Integer id) { return employeeRepository.findByAdmin(id); }
 
     public List<Employee> findByClientCompany(Integer id) { return employeeRepository.findByClientCompany(id); }
+
+    public EmployeeInfo getEmployeeInfo(Integer id){
+        EmployeeInfo info = new EmployeeInfo();
+        info.setEmployee(this.getUser(id));
+        info.setClients(this.clientService.listAllClientForUser(id));
+        info.setEmployees(this.findByAdmin(id));
+        Integer admin_id = info.getEmployee().getAdmin().getUser_id();
+        info.setAdminClients(this.clientService.listAllClientForAdmin(admin_id));
+        return info;
+    }
 
 }

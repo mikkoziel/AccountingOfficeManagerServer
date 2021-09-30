@@ -1,6 +1,7 @@
 package com.example.AccountingOfficeManagerServer.api;
 
 import com.example.AccountingOfficeManagerServer.entity.model.Employee;
+import com.example.AccountingOfficeManagerServer.entity.modelpack.EmployeeInfo;
 import com.example.AccountingOfficeManagerServer.service.EmployeeService;
 import com.example.AccountingOfficeManagerServer.service.UserService;
 import org.slf4j.Logger;
@@ -81,4 +82,8 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping("/e-info/{id}")
+    public EmployeeInfo getEmployeeInfo(@PathVariable Integer id) {
+        return this.employeeService.getEmployeeInfo(id);
+    }
 }
