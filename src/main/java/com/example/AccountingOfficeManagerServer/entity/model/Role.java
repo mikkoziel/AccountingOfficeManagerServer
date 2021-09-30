@@ -63,7 +63,7 @@ public class Role implements GrantedAuthority, Serializable {
 
     @Override
     public String toString() {
-        return "Role{" +
+        return "{" +
                 "\"name\": '" + name + '\'' +
                 '}';
     }

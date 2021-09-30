@@ -186,7 +186,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "{" +
                 "\"user_id\": " + user_id +
                 ", \"first_name\": '" + first_name + '\'' +
                 ", \"last_name\": '" + last_name + '\'' +

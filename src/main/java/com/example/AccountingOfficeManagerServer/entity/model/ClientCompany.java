@@ -48,7 +48,7 @@ public class ClientCompany extends Company implements Serializable {
 
     @Override
     public String toString() {
-        return "ClientCompany{" +
+        return "{" +
                 "\"company_id\": " + company_id +
                 ", \"name\": '" + name + '\'' +
                 ", \"users\": " + users.stream().map(User::getUser_id).collect(Collectors.toList()) +

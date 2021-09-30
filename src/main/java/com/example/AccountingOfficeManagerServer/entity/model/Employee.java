@@ -83,7 +83,7 @@ public class Employee extends User implements Serializable {
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "{" +
                 "\"user_id\": " + user_id +
                 ", \"first_name\": '" + first_name + '\'' +
                 ", \"last_name\": '" + last_name + '\'' +

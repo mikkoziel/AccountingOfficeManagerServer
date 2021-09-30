@@ -95,7 +95,7 @@ public class Calendar implements Serializable {
 
     @Override
     public String toString() {
-        return "Calendar{" +
+        return "{" +
                 "\"calendar_id\": " + calendar_id +
                 ", \"start_date\": \"" + start_date.toString() +
                 "\", \"end_date\": \"" + end_date.toString() +
